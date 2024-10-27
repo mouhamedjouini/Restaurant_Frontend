@@ -1,0 +1,22 @@
+<section class="login-section">
+    <div class="container">
+        <h2 class="title">Register</h2>
+        <p class="subtitle">Join us for exclusive features and benefits!</p>
+        <form (ngSubmit)="register()" class="auth-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input [(ngModel)]="user.username" type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input [(ngModel)]="user.email" type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input [(ngModel)]="user.password" type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <p class="alternative">Already have an account? <a routerLink="/login">Log In</a></p>
+    </div>
+</section>
