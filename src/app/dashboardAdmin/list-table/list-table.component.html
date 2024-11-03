@@ -1,0 +1,26 @@
+<div class="container-xxl py-5">
+    <h1 class="text-center mb-4">Reserved Tables</h1>
+    
+  
+    <div *ngIf="reservations.length === 0" class="alert alert-info text-center">
+        No reservations available.
+    </div>
+    
+ 
+    <table class="table table-striped" *ngIf="reservations.length > 0">
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>No Of People</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let reservation of reservations">
+                <td>{{ reservation.reservationDate | date: 'short' }}</td>
+                <td>{{ reservation.numberOfGuests }} {{ reservation.numberOfGuests === 1 ? 'Person' : 'People' }}</td>
+                <!-- <td>{{ reservation.status || 'Confirmed' }}</td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>
