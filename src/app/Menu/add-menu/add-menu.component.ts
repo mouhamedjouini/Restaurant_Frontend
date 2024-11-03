@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Menu } from '../../models/Menu';
 import { MenuService } from '../../services/menu.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-menu',
@@ -11,7 +12,8 @@ import { MenuService } from '../../services/menu.service';
   styleUrl: './add-menu.component.css'
 })
 export class AddMenuComponent {
-  constructor(private menuS:MenuService){}
+  constructor(private menuS:MenuService,private router:Router
+  ){}
   menu:Menu = { restaurantId: 1};
   images: any
   image:any
@@ -37,11 +39,15 @@ if (this.imageFile) {
 } else {
   console.log("No image file selected.");
 }
+formData.forEach((value, key) => {
+  console.log(`${key}: ${value}`);
+});
 
 
 this.menuS.AddMenu(formData).subscribe({
   next: (data) => {
     console.log("Menu added successfully:", data);
+    this.router.navigate(['Admin/Menu'])
   },
    error: (err) => {
       console.log(err)

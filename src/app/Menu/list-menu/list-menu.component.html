@@ -48,6 +48,11 @@
                               <span class="text-primary">{{ item.price  }}</span>
                             </h5>
                             <small class="fst-italic">{{ item.description }}</small>
+                            <div class="icon-container">
+                                <i class="bi bi-pencil-square icon-edit" [routerLink]="['/Admin/update', item.id]"></i>
+                                <i class="bi bi-trash icon-delete" (click)="deleteMenu(item.id)"></i>
+                            </div>
+                          
                           </div>
                         </div>
                       </div>
