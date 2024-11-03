@@ -1,0 +1,16 @@
+.icon-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.icon-edit {
+    color: #ff8c00;
+    cursor: pointer;
+    margin-right: 1rem; 
+}
+
+.icon-delete {
+    color: #333;
+    cursor: pointer;
+}
