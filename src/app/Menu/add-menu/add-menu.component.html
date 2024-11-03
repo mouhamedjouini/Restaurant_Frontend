@@ -1,0 +1,66 @@
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container my-5 py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 bg-dark d-flex align-items-center">
+                <div class="p-5 mx-auto" data-wow-delay="0.2s">
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Ajouter un Menu</h5>
+                    <h1 class="text-white mb-4">Nouveau Menu</h1>
+                    <form (ngSubmit)="add(menu)" #menuform="ngForm" novalidate>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text"  [(ngModel)]="menu.name"
+                                    name="name"
+                                    type="text"
+                                    required
+                                    minlength="3"
+                                    #name="ngModel"
+                                    clearInput
+                                    debounce="300"class="form-control" id="name" placeholder="Nom du menu">
+                                    <label for="name">Nom du menu</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="description"[(ngModel)]="menu.description"
+                                    name="description"
+                                    type="text"
+                                    required
+                                    minlength="10"
+                                    #name="ngModel"
+                                    clearInput
+                                    debounce="300" placeholder="Description" style="height: 100px"></textarea>
+                                    <label for="description">Description</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" [(ngModel)]="menu.price"
+                                    name="price"
+                                    type="number"
+                                    required
+                                    minlength="1"
+                                    #name="ngModel"
+                                    clearInput
+                                    debounce="300" id="price" placeholder="Prix">
+                                    <label for="price">Prix</label>
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="col-12">
+                                <label class="text-white"  accept=".jpg,.png,.pdf"
+                                name="image"
+                                debounce="300">Image</label>
+                                <input type="file" (change)="selectedimage($event)" type="file" id="upload" name="upload" required>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit"[disabled]="menuform.invalid">Ajouter le Menu</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
