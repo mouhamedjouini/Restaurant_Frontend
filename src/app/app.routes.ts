@@ -6,6 +6,10 @@ import { DashAdminComponent } from './dashboardAdmin/dash-admin/dash-admin.compo
 import { ListMenuComponent } from './Menu/list-menu/list-menu.component';
 import { AddMenuComponent } from './Menu/add-menu/add-menu.component';
 import { UpdateMenuComponent } from './Menu/update-menu/update-menu.component';
+import { DashUserComponent } from './DashboardUser/dash-user/dash-user.component';
+import { AddTableComponent } from './DashboardUser/add-table/add-table.component';
+import { ListTableComponent } from './dashboardAdmin/list-table/list-table.component';
+import { ListBComponent } from './DashboardUser/list-b/list-b.component';
 
 export const routes: Routes = [
     {path:'home',component:HomeComponent},
@@ -15,6 +19,12 @@ export const routes: Routes = [
     { path: 'Admin', component: DashAdminComponent , children:[
         {path: 'Menu',component:ListMenuComponent},
         {path: 'add',component:AddMenuComponent},
-        {path: 'update/:id',component:UpdateMenuComponent}
+        {path: 'update/:id',component:UpdateMenuComponent},
+        {path:"list", component:ListTableComponent}
     ]},
+    { path: 'user', component: DashUserComponent , children:[
+        {path: "addT" , component :AddTableComponent},
+        {path:'listb',component:ListBComponent}
+       
+    ] }
 ];
