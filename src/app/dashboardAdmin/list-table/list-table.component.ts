@@ -21,12 +21,7 @@ export class ListTableComponent  implements OnInit{
   constructor(private book: BookingService) {}
 
   ngOnInit(): void {
-    const userId = 1; 
-    this.fetchReservationsByUser(userId);
-  }
-
-  fetchReservationsByUser(userId: number): void {
-    this.book.getReservationsByUser(userId).subscribe({
+    this.book.getAllReservations().subscribe({
       next: (reservations) => {
         this.reservations = reservations; 
       },
@@ -35,4 +30,5 @@ export class ListTableComponent  implements OnInit{
       }
     });
   }
+
 }

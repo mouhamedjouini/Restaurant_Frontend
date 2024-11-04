@@ -52,7 +52,7 @@ this.getCurrentUser()
 if(this.roles.includes('Admin')){
   this.router.navigate(['']);
 }else{
-this.router.navigate(['']);
+this.router.navigate(['/user']);
 }
 },
 error: (err: any) => {
