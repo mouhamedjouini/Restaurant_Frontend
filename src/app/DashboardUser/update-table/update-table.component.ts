@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Reservation } from '../../models/Reservation';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-update-table',
@@ -13,13 +14,13 @@ import { Reservation } from '../../models/Reservation';
 })
 export class UpdateTableComponent implements OnInit {
   reservation: Reservation = new Reservation();
-  private readonly staticUserId: number = 1; 
   private readonly staticRestaurantId: number = 1; 
 
   constructor(
     private book: BookingService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -42,18 +43,25 @@ export class UpdateTableComponent implements OnInit {
 
   updateReservation(form: NgForm): void {
     if (form.valid) {
-      // Update reservation with static user and restaurant IDs
-      this.book.updateReservation({
-        ...this.reservation,
-        userId: this.staticUserId,
-        restaurantId: this.staticRestaurantId,
-      }, this.reservation.id).subscribe({
-        next: () => {
-          console.log('Reservation updated successfully');
-          this.router.navigate(['user/listb']); // Navigate back to the list after update
+      this.authService.getCurrentUser().subscribe({
+        next: (data) => {
+          const userId = data.id;
+          this.book.updateReservation({
+            ...this.reservation,
+            userId: userId,
+            restaurantId: this.staticRestaurantId,
+          }, this.reservation.id).subscribe({
+            next: () => {
+              console.log('Reservation updated successfully');
+              this.router.navigate(['user/listb']); 
+            },
+            error: (err) => {
+              console.error('Error updating reservation:', err);
+            }
+          });
         },
         error: (err) => {
-          console.error('Error updating reservation:', err);
+          console.error('Error fetching current user:', err);
         }
       });
     } else {
