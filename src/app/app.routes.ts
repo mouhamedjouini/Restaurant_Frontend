@@ -10,6 +10,7 @@ import { DashUserComponent } from './DashboardUser/dash-user/dash-user.component
 import { AddTableComponent } from './DashboardUser/add-table/add-table.component';
 import { ListTableComponent } from './dashboardAdmin/list-table/list-table.component';
 import { ListBComponent } from './DashboardUser/list-b/list-b.component';
+import { ListMenuUserComponent } from './Menu/list-menu-user/list-menu-user.component';
 
 export const routes: Routes = [
     {path:'home',component:HomeComponent},
@@ -24,7 +25,8 @@ export const routes: Routes = [
     ]},
     { path: 'user', component: DashUserComponent , children:[
         {path: "addT" , component :AddTableComponent},
-        {path:'listb',component:ListBComponent}
+        {path:'listb',component:ListBComponent},
+        {path: 'MenuC',component:ListMenuUserComponent},
        
     ] }
 ];
