@@ -1,27 +1,30 @@
 <div class="container-xxl py-5">
     <h1 class="text-center mb-4">Reserved Tables</h1>
-    
+  
     <div *ngIf="reservations.length === 0" class="alert alert-info text-center">
-        No reservations available for this user.
+      No reservations available for this user.
     </div>
-    
-    <table class="table table-striped" *ngIf="reservations.length > 0">
-        <thead>
-            <tr>
-                <th>Date & Time</th>
-                <th>No Of People</th>
-                <th class="text-center">Actions</th> <!-- Center the actions column -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let reservation of reservations">
-                <td>{{ reservation.reservationDate | date: 'short' }}</td>
-                <td>{{ reservation.numberOfGuests }} {{ reservation.numberOfGuests === 1 ? 'Person' : 'People' }}</td>
-                <td class="text-center">
-                    <!-- <button (click)="updateReservation(reservation.id)" class="btn btn-outline-primary btn-sm me-2">Update</button> -->
-                    <button  class="btn btn-outline-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-        </tbody>
+  
+    <table class="table table-hover table-bordered table-striped rounded" *ngIf="reservations.length > 0">
+      <thead class="table-dark">
+        <tr>
+          <th>Date & Time</th>
+          <th>No Of People</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations | paginate: { itemsPerPage: 3, currentPage: currentPage }">
+          <td>{{ reservation.reservationDate | date: 'short' }}</td>
+          <td>{{ reservation.numberOfGuests }} {{ reservation.numberOfGuests === 1 ? 'Person' : 'People' }}</td>
+          <td class="text-center icon-container">
+            <i class="fas fa-trash-alt icon-delete" (click)="deleteReservation(reservation.id)" title="Delete"></i>
+            <i class="fas fa-edit icon-edit" [routerLink]="['/user/update', reservation.id]" title="Update"></i>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div>
+  
+    <pagination-controls (pageChange)="currentPage = $event" class="d-flex justify-content-center mt-3"></pagination-controls>
+  </div>
+  
