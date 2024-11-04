@@ -1,0 +1,24 @@
+.icon-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+
+.icon-add {
+    background-color: transparent;
+  ; /* Contour orange pour correspondre à votre palette */
+ 
+    color: #ff8c00; /* Couleur orange */
+    font-size: 1.5rem;
+    padding: 0.3rem;
+    cursor: pointer;
+ 
+}
+
+.icon-add:hover {
+    color: #fff; /* Texte blanc au survol */
+    background-color: #ff8c00; /* Fond orange au survol */
+    border-color: #cc7000; /* Orange foncé au survol */
+    transform: scale(1.1); /* Agrandissement léger au survol */
+}

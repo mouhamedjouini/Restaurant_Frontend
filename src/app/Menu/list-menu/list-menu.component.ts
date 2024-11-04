@@ -13,12 +13,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './list-menu.component.css'
 })
 export class ListMenuComponent implements OnInit{
-openUpdateModal(_t29: Menu) {
-throw new Error('Method not implemented.');
-}
-confirmDelete(_t29: Menu) {
-throw new Error('Method not implemented.');
-}
+
   Menu: Menu[] = [];
   public url = 'http://localhost:8082/api/images/'
   constructor(private menuService:MenuService){}
