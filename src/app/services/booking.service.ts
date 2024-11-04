@@ -20,5 +20,13 @@ export class BookingService {
   getReservationsByUser(userId: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`http://localhost:8082/api/reservations/user/${userId}`);
 }
-
+deleteReservation(id: number): Observable<void> {
+  return this.http.delete<void>(`http://localhost:8082/api/reservations/deletRc/${id}`);
+}
+updateReservation(reservation: Reservation, id: number): Observable<Reservation> {
+  return this.http.put<Reservation>(`http://localhost:8082/api/reservations/updateR/${id}`, reservation);
+}
+getReservationById(id: number): Observable<Reservation> {
+  return this.http.get<Reservation>(`http://localhost:8082/api/reservations/reservation/${id}`);
+}
 }
