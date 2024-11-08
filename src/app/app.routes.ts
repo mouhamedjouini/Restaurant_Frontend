@@ -14,6 +14,8 @@ import { ListBComponent } from './DashboardUser/list-b/list-b.component';
 import { ListMenuUserComponent } from './Menu/list-menu-user/list-menu-user.component';
 
 import { UpdateTableComponent } from './DashboardUser/update-table/update-table.component';
+import { ListCommandeUserComponent } from './Commande/list-commande-user/list-commande-user.component';
+import { ListCommandeComponent } from './Commande/list-commande/list-commande.component';
 
 
 export const routes: Routes = [
@@ -25,7 +27,8 @@ export const routes: Routes = [
         {path: 'Menu',component:ListMenuComponent},
         {path: 'add',component:AddMenuComponent},
         {path: 'update/:id',component:UpdateMenuComponent},
-        {path:"list", component:ListTableComponent}
+        {path:"list", component:ListTableComponent},
+        {path:'listCommande' , component:ListCommandeComponent}
     ]},
     { path: 'user', component: DashUserComponent , children:[
         {path: "addT" , component :AddTableComponent},
@@ -33,7 +36,8 @@ export const routes: Routes = [
 
         {path: 'MenuC',component:ListMenuUserComponent},
 
-        {path:'update/:id' , component:UpdateTableComponent}
+        {path:'update/:id' , component:UpdateTableComponent},
+        {path:'listCommande' , component:ListCommandeUserComponent}
 
        
     ] }

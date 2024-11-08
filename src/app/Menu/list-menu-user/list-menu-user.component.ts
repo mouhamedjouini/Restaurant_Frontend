@@ -6,6 +6,7 @@ import { Commande, Status } from '../../models/Commande';
 import { CommandeService } from '../../services/commande.service';
 import { Route, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 import { AvisService } from '../../services/avis.service';
 import { Avis } from '../../models/Avis';
 
@@ -17,26 +18,50 @@ import { Avis } from '../../models/Avis';
   styleUrl: './list-menu-user.component.css'
 })
 export class ListMenuUserComponent {
- 
+ roles:any
+
   commande: Commande = {
     date: new Date(),
     status: Status.PENDING,
-    userId: 1, // ID de l'utilisateur par défaut
+   
    
   };
+  id:Commande['menuId']
+
       Menu: Menu[] = [];
       avisMap: { [key: number]: Avis[] } = {};
       public url = 'http://localhost:8082/api/images/'
       constructor(private menuService:MenuService,private commandeService:CommandeService,private router:Router
         , private avisService: AvisService
       ){}
+
       ngOnInit(): void {
        this.allMenu()
+       this.getCurrentUser()
       }
+      
+  getCurrentUser(){
+    this.roles=this.auth.getRoles();
+  console.log(this.roles);
+  this.auth.getCurrentUser().subscribe({
+    next:(data)=>{
+      console.log(data);
+      this.commande.userId=data.id
+   
+     
+      
+    },
+    error: (error) => {
+      console.error( error);
+    }
+
+  })
+
+  }
       AjouterCommande(menuId: Commande["menuId"]) {
         this.commande.menuId = menuId;
+console.log(this.commande.userId);
 
-    // Envoyer la commande directement au service sans utiliser formData
     this.commandeService.Add(this.commande).subscribe({
       next: (data) => {
         console.log("Commande ajoutée avec succès :", data);
@@ -47,6 +72,7 @@ export class ListMenuUserComponent {
           confirmButtonText: 'OK'
         }).then(() => {
           this.router.navigate(['user/MenuC']);
+
         });
       
       },
@@ -55,6 +81,9 @@ export class ListMenuUserComponent {
       }
         })
         
+        }
+        getMenuByid(){
+
         }
       allMenu(){
         this.menuService.GetAllMenu().subscribe({

@@ -1,0 +1,32 @@
+<div class="container-xxl py-5">
+    <h1 class="text-center mb-4">Commandes</h1>
+    <div *ngIf="commandes.length === 0" class="alert alert-info text-center">
+      No commandes available for this user.
+    </div>
+    <div *ngIf="commandes.length > 0">
+      <table class="table table-hover table-bordered table-striped rounded">
+        <thead class="table-dark">
+          <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>User</th>
+            <th>Menu</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let commande of commandes; let i = index">
+            <td>{{ commande.date }}</td>
+            <td>{{ commande.status }}</td>
+            <td>{{ commande.userName }}</td>
+            <td>{{ commande.menuName }}</td>
+            <td>{{ commande.menuPrice | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-end mt-3">
+        <strong>Total Price: {{ totalPrice | currency }}</strong>
+      </div>
+    </div>
+  </div>
+  

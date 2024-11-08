@@ -1,0 +1,45 @@
+<div class="container-xxl py-5">
+    <h1 class="text-center mb-4">Commandes par Client</h1>
+  @if (commandes.length === 0) {
+    <!-- Si aucune commande n'est disponible -->
+    <div class="alert alert-info text-center">
+      No commandes available.
+    </div>
+}
+@if (commandes.length > 0) {
+    <div >
+    @for ( userCommandes of commandes; track $index) {
+      <div >
+        <h3>Client : {{ userCommandes.userName }}</h3>
+  
+        <!-- Tableau des commandes de l'utilisateur -->
+        <table class="table table-hover table-bordered table-striped rounded">
+          <thead class="table-dark">
+            <tr>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Menu</th>
+              <th>Prix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let commande of commandes">
+              <td>{{ commande.date | date}}</td>
+              <td>{{ commande.status }}</td>
+              <td>{{ commande.menuName }}</td>
+              <td>{{ commande.menuPrice | currency:'TND' }}</td>
+            </tr>
+          </tbody>
+          <!-- Afficher le total des commandes de l'utilisateur -->
+          <tfoot>
+            <tr class="table-primary">
+              <td colspan="3" class="text-end"><strong>Total :</strong></td>
+             
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    }
+    </div>
+}
+  </div>
