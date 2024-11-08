@@ -7,6 +7,8 @@ import { CommandeService } from '../../services/commande.service';
 import { Route, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
+import { AvisService } from '../../services/avis.service';
+import { Avis } from '../../models/Avis';
 
 @Component({
   selector: 'app-list-menu-user',
@@ -27,8 +29,12 @@ export class ListMenuUserComponent {
   id:Commande['menuId']
 
       Menu: Menu[] = [];
+      avisMap: { [key: number]: Avis[] } = {};
       public url = 'http://localhost:8082/api/images/'
-      constructor(private menuService:MenuService,private commandeService:CommandeService,private router:Router,private auth:AuthService){}
+      constructor(private menuService:MenuService,private commandeService:CommandeService,private router:Router
+        , private avisService: AvisService
+      ){}
+
       ngOnInit(): void {
        this.allMenu()
        this.getCurrentUser()
@@ -83,11 +89,24 @@ console.log(this.commande.userId);
         this.menuService.GetAllMenu().subscribe({
           next: (data) => {
             this.Menu=data;
+            // this.Menu.forEach(menuItem => {
+            //   this.loadAvisForMenu(menuItem.id); // Load avis for each menu item
+            // });
             console.log(this.Menu)
             
           }, error: (err) => {
             console.log(err)
           }
       })}
-     
+      
+//       loadAvisForMenu(menuId: number) {
+//         this.avisService.GetAllAvis().subscribe({
+//           next: (avisList) => {
+//             // Filter avis by menu ID and assign to avisMap
+//         //    this.avisMap[menuId] = avisList.filter(avis => avis.menuId === menuId);
+//           },
+//           error: (err) => console.log("Error loading avis:", err)
+//         });
+//       }   
+// 
 }
