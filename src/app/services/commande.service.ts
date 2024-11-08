@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
 export class CommandeService {
   constructor(private httpClient: HttpClient){}
   GetAll(): Observable<Commande[]> {
-      return this.httpClient.get<Commande[]>('http://localhost:8082/api/menus');
+      return this.httpClient.get<Commande[]>('http://localhost:8082/allc');
     }
-     getbyid(id:number) {
-      return this.httpClient.get<Commande>(`http://localhost:8082/api/menu/${id}`);
+     getbyidClient(id:number) :Observable<Commande[]> {
+      return this.httpClient.get<Commande[]>(`http://localhost:8082/user/${id}`);
     }
+    
     
     update(id: any, formData: FormData): Observable<Commande> {
       formData.forEach((value, key) => {

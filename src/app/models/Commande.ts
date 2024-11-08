@@ -10,7 +10,9 @@ export class Commande {
     id?: number;
     date?: Date;
     status?: Status;
-   // payments?: Payment[];
+    userName?: string;
+    menuName?: string;
+    menuPrice?: number;
    userId?: number;
     menuId?: number;
   }
