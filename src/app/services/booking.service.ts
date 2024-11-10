@@ -29,4 +29,7 @@ updateReservation(reservation: Reservation, id: number): Observable<Reservation>
 getReservationById(id: number): Observable<Reservation> {
   return this.http.get<Reservation>(`http://localhost:8082/api/reservations/reservation/${id}`);
 }
+getReservationsByStatus(status: string): Observable<Reservation[]> {
+  return this.http.get<Reservation[]>(`http://localhost:8082/api/reservations/status/${status}`);
+}
 }
