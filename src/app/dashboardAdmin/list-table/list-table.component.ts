@@ -43,16 +43,35 @@ export class ListTableComponent  implements OnInit{
   }
 
   onStatusChange(reservation: Reservation) {
-    this.book.updateReservation(reservation, reservation.id).subscribe({
-      next: (updatedReservation) => {
-        const index = this.reservations.findIndex(r => r.id === updatedReservation.id);
-        if (index !== -1) {
-          this.reservations[index] = updatedReservation;
+    if (reservation.status === 'CANCELLED') {
+      this.toastr.info('Reservation will be deleted in 5 seconds.', 'Cancelled');
+      setTimeout(() => {
+        this.deleteReservation(reservation.id);
+      }, 3000); 
+    } else {
+      this.book.updateReservation(reservation, reservation.id).subscribe({
+        next: (updatedReservation) => {
+          const index = this.reservations.findIndex(r => r.id === updatedReservation.id);
+          if (index !== -1) {
+            this.reservations[index] = updatedReservation;
+          }
+          this.showStatusToast(updatedReservation.status);
+        },
+        error: (err) => {
+          console.error('Error updating reservation status:', err);
         }
-        this.showStatusToast(updatedReservation.status);
+      });
+    }
+  }
+
+  deleteReservation(id: number) {
+    this.book.deleteReservation(id).subscribe({
+      next: () => {
+        this.reservations = this.reservations.filter(r => r.id !== id);
+        this.toastr.info('Reservation deleted.', 'Cancelled');
       },
       error: (err) => {
-        console.error('Error updating reservation status:', err);
+        console.error('Error deleting reservation:', err);
       }
     });
   }
@@ -68,5 +87,4 @@ export class ListTableComponent  implements OnInit{
       this.toastr.info('Status not specified.');
     }
   }
-  
 }
