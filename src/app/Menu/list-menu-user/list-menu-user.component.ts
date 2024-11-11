@@ -7,13 +7,13 @@ import { CommandeService } from '../../services/commande.service';
 import { Route, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
-import { AvisService } from '../../services/avis.service';
-import { Avis } from '../../models/Avis';
+
 
 @Component({
   selector: 'app-list-menu-user',
   standalone: true,
   imports: [CommonModule],
+  
   templateUrl: './list-menu-user.component.html',
   styleUrl: './list-menu-user.component.css'
 })
@@ -29,9 +29,10 @@ export class ListMenuUserComponent {
   id:Commande['menuId']
 
       Menu: Menu[] = [];
-      avisMap: { [key: number]: Avis[] } = {};
+    //  avisMap: { [key: number]: Avis[] } = {};
       public url = 'http://localhost:8082/api/images/'
       constructor(private menuService:MenuService,private commandeService:CommandeService,private router:Router
+
         , private avisService: AvisService,private auth:AuthService
       ){}
 

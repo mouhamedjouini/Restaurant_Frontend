@@ -5,5 +5,6 @@ export class Avis {
     rating?: String;
     restaurantId?: number;
     commandeId?: number;
+    menuId?:number;
   }
   

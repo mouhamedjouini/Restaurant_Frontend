@@ -4,4 +4,5 @@ export class Reservation {
     restaurantId?: number;
     reservationDate?: Date;
     numberOfGuests?: number;
+    status?: string;
 }
