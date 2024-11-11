@@ -50,7 +50,7 @@ this.jwToken = data.headers.get('Authorization')!;
 this.auth.saveToken(this.jwToken);
 this.getCurrentUser()
 if(this.roles.includes('Admin')){
-  this.router.navigate(['']);
+  this.router.navigate(['/Admin']);
 }else{
 this.router.navigate(['/user']);
 }

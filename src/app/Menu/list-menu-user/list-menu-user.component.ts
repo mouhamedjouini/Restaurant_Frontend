@@ -32,7 +32,8 @@ export class ListMenuUserComponent {
     //  avisMap: { [key: number]: Avis[] } = {};
       public url = 'http://localhost:8082/api/images/'
       constructor(private menuService:MenuService,private commandeService:CommandeService,private router:Router
-         , private auth : AuthService
+
+        , private avisService: AvisService,private auth:AuthService
       ){}
 
       ngOnInit(): void {
