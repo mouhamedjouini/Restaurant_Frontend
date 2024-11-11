@@ -16,6 +16,7 @@ import { ListMenuUserComponent } from './Menu/list-menu-user/list-menu-user.comp
 import { UpdateTableComponent } from './DashboardUser/update-table/update-table.component';
 import { ListCommandeUserComponent } from './Commande/list-commande-user/list-commande-user.component';
 import { ListCommandeComponent } from './Commande/list-commande/list-commande.component';
+import { PaymentComponent } from './DashboardUser/payment/payment.component';
 
 
 export const routes: Routes = [
@@ -37,7 +38,8 @@ export const routes: Routes = [
         {path: 'MenuC',component:ListMenuUserComponent},
 
         {path:'update/:id' , component:UpdateTableComponent},
-        {path:'listCommande' , component:ListCommandeUserComponent}
+        {path:'listCommande' , component:ListCommandeUserComponent},
+        {path:'listCommande/pay' , component:PaymentComponent}
 
        
     ] }
