@@ -5,11 +5,12 @@ import { Commande } from '../../models/Commande';
 import { MenuService } from '../../services/menu.service';
 import { ThisReceiver } from '@angular/compiler';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-list-commande-user',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './list-commande-user.component.html',
   styleUrl: './list-commande-user.component.css'
 })
@@ -45,9 +46,9 @@ export class ListCommandeUserComponent implements OnInit{
 
   }
   calculateTotalPrice() {
-    this.totalPrice = 0; // Réinitialiser le total
+    this.totalPrice = 0; 
     for (let commande of this.commandes) {
-      this.totalPrice += commande.menuPrice || 0; // Ajouter le prix de chaque menu
+      this.totalPrice += commande.menuPrice || 0; 
     }
   }
   getCommandeByuser(id:any){
