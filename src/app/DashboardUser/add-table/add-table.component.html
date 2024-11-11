@@ -19,10 +19,20 @@
                         <!-- Reservation Date -->
                         <div class="col-md-12">
                             <div class="form-floating date" id="date3" data-target-input="nearest">
-                                <input type="datetime-local" class="form-control datetimepicker-input" id="reservationDate" name="reservationDate" placeholder="Date & Time" [(ngModel)]="reservation.reservationDate" data-target="#date3" data-toggle="datetimepicker" />
-                                <label for="reservationDate">Date & Time</label>
+                              <input 
+                                type="datetime-local" 
+                                class="form-control datetimepicker-input" 
+                                id="reservationDate" 
+                                name="reservationDate" 
+                                placeholder="Date & Time" 
+                                [(ngModel)]="reservation.reservationDate" 
+                                [ngModel]="reservation.reservationDate "  
+                                data-target="#date3" 
+                                data-toggle="datetimepicker" />
+                              <label for="reservationDate">Date & Time</label>
                             </div>
-                        </div>
+                          </div>
+                          
 
                         <!-- Number of Guests -->
                         <div class="col-md-12">

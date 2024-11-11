@@ -4,11 +4,13 @@ import { Reservation } from '../../models/Reservation';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-table',
   standalone: true,
   imports: [FormsModule],
+  providers:[DatePipe],
   templateUrl: './add-table.component.html',
   styleUrl: './add-table.component.css'
 })
@@ -19,11 +21,11 @@ export class AddTableComponent implements OnInit{
   constructor(
     private bookingS: BookingService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService ,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
-    // Set the restaurantId as a static value
     this.reservation.restaurantId = this.staticRestaurantId;
 
     this.authService.getCurrentUser().subscribe({
@@ -34,13 +36,20 @@ export class AddTableComponent implements OnInit{
         console.error('Failed to retrieve current user:', err);
       }
     });
+    this.reservation.reservationDate = new Date();
+
   }
 
   onSubmit(form: NgForm): void {
     if (form.valid) {
       this.reservation.numberOfGuests = form.value.numberOfGuests;
-      this.reservation.reservationDate = new Date(form.value.reservationDate);
-
+  
+      // Format the reservation date using DatePipe before submission
+      const formattedDate = this.datePipe.transform(form.value.reservationDate, 'yyyy-MM-ddTHH:mm');
+      if (formattedDate) {
+        this.reservation.reservationDate = new Date(formattedDate);  // Ensure proper format
+      }
+  
       this.bookingS.AddTable(this.reservation).subscribe({
         next: (response) => {
           console.log('Reservation successful:', response);
@@ -49,11 +58,13 @@ export class AddTableComponent implements OnInit{
         },
         error: (err) => {
           console.error('Reservation failed:', err);
+          // Log more information about the error response
+          console.error('Error details:', err.error);  // This will give you a deeper look at the error response
         }
       });
     } else {
       console.warn('Form is invalid');
     }
   }
-
+  
 }

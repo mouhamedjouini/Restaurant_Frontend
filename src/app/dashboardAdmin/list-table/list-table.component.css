@@ -1,0 +1,22 @@
+/* Customize the status badges */
+.badge-warning {
+    background-color: #ffc107;
+    color: black;
+  }
+  
+  .badge-success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .badge-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .badge {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  
