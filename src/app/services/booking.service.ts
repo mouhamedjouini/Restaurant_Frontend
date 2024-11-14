@@ -29,6 +29,8 @@ export class BookingService {
 }
 deleteReservation(id: number): Observable<void> {
   const headers = this.getAuthHeaders();
+  console.log("services",id);
+  
   return this.http.delete<void>(`http://localhost:8082/api/reservations/deletRc/${id}`);
 }
 updateReservation(reservation: Reservation, id: number): Observable<Reservation> {

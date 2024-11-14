@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { loadZone } from 'zone.js/lib/zone';
 
 @Component({
   selector: 'app-list-b',
@@ -52,12 +53,18 @@ export class ListBComponent implements OnInit{
 
   // Delete a reservation
   deleteReservation(id: number): void {
+    console.log(id);
+    
     this.book.deleteReservation(id).subscribe({
       next: () => {
-        this.reservations = this.reservations.filter(res => res.id !== id);
+        console.log("hhhh");
+        
+       // this.reservations = this.reservations.filter(res => res.id !== id);
         this.toastr.success('Reservation deleted successfully.', 'Deleted'); 
       },
       error: (err) => {
+        console.log("error");
+        
         console.error('Error deleting reservation:', err);
         this.toastr.error('Failed to delete reservation.', 'Error');
       }
