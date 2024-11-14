@@ -6,6 +6,7 @@ import { BookingService } from '../../services/booking.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-b',
@@ -18,13 +19,18 @@ export class ListBComponent implements OnInit{
   reservations: Reservation[] = []; 
   currentPage = 1; 
 
-  constructor(private book: BookingService, private authService: AuthService) {}
+  constructor(
+    private book: BookingService, 
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
+    // Fetch current user and their reservations
     this.authService.getCurrentUser().subscribe({
       next: (data) => {
         const userId = data.id; // Get the current user's ID
-        this.fetchReservationsByUser(userId);
+        this.fetchReservationsByUser(userId); // Fetch reservations for the current user
       },
       error: (err) => {
         console.error('Error fetching current user:', err);
@@ -32,6 +38,7 @@ export class ListBComponent implements OnInit{
     });
   }
 
+  // Fetch reservations by user ID
   fetchReservationsByUser(userId: number): void {
     this.book.getReservationsByUser(userId).subscribe({
       next: (reservations) => {
@@ -43,14 +50,16 @@ export class ListBComponent implements OnInit{
     });
   }
 
+  // Delete a reservation
   deleteReservation(id: number): void {
     this.book.deleteReservation(id).subscribe({
       next: () => {
         this.reservations = this.reservations.filter(res => res.id !== id);
+        this.toastr.success('Reservation deleted successfully.', 'Deleted'); 
       },
       error: (err) => {
         console.error('Error deleting reservation:', err);
+        this.toastr.error('Failed to delete reservation.', 'Error');
       }
     });
-  }
-}
+  }}

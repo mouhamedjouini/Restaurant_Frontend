@@ -17,6 +17,7 @@ import { UpdateTableComponent } from './DashboardUser/update-table/update-table.
 import { ListCommandeUserComponent } from './Commande/list-commande-user/list-commande-user.component';
 import { ListCommandeComponent } from './Commande/list-commande/list-commande.component';
 import { PaymentComponent } from './DashboardUser/payment/payment.component';
+import { AvisComponent } from './DashboardUser/avis/avis.component';
 
 
 export const routes: Routes = [
@@ -39,7 +40,8 @@ export const routes: Routes = [
 
         {path:'update/:id' , component:UpdateTableComponent},
         {path:'listCommande' , component:ListCommandeUserComponent},
-        {path:'listCommande/pay' , component:PaymentComponent}
+        {path:'listCommande/pay' , component:PaymentComponent},
+        {path:'listCommande/feed' , component:AvisComponent}
 
        
     ] }
