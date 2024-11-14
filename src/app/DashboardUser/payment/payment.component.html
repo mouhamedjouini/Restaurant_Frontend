@@ -1,0 +1,25 @@
+<div class="payment-container">
+  <h2>Paiement sécurisé</h2>
+
+  <div class="item-summary">
+    <h3>Résumé de la commande</h3>
+    <ul>
+      <li *ngFor="let item of commandes">
+        {{ item.menuName }} - {{ item.menuPrice  }} USD 
+      </li>
+    </ul>
+    <h3>Total: {{ totalAmount  }} USD</h3>
+  </div>
+
+  <div id="card-element" class="card-element"></div>
+  <div *ngIf="cardError" class="error-message">{{ cardError }}</div>
+
+  <button (click)="initiatePayment()" [disabled]="isProcessing || !stripe" class="pay-button">
+    <span *ngIf="isProcessing">Traitement...</span>
+    <span *ngIf="!isProcessing">Payer {{ totalAmount }} USD</span>
+  </button>
+
+  <div *ngIf="isPaymentSuccess" class="success-message">
+    🎉 Paiement réussi ! Merci pour votre achat.
+  </div>
+</div>
