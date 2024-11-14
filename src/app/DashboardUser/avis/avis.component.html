@@ -1,0 +1,37 @@
+<div class="container my-5">
+  <div class="card mx-auto" style="max-width: 500px;">
+    <div class="card-header text-center">
+      <h2>Add Your Feedback</h2>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="submitAvis()">
+        <div class="form-group mb-3">
+          <label for="comment">Comment:</label>
+          <textarea
+            id="comment"
+            [(ngModel)]="avis.comment"
+            name="comment"
+            class="form-control"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="rating">Rating:</label>
+          <div class="star-rating">
+            <fa-icon
+              *ngFor="let star of stars; let i = index"
+              [icon]="i < (avis.rating || 0) ? faStar : faStarHalfAlt"
+              (click)="setRating(i + 1)"
+              [class.filled]="i < (avis.rating || 0)"
+              class="star"
+            ></fa-icon>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4 w-100">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+</div>

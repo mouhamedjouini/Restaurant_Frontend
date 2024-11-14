@@ -3,9 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { CommandeService } from '../../services/commande.service';
 import { Commande } from '../../models/Commande';
 import { MenuService } from '../../services/menu.service';
-import { ThisReceiver } from '@angular/compiler';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list-commande-user',
@@ -26,7 +25,8 @@ export class ListCommandeUserComponent implements OnInit{
   }
 
 
-  constructor(private auth:AuthService,private commande:CommandeService,private menu : MenuService){}
+  constructor(private auth:AuthService,private commande:CommandeService,private menu : MenuService,
+   ){}
   getCurrentUser(){
     this.roles=this.auth.getRoles();
   console.log(this.roles);
@@ -66,4 +66,5 @@ export class ListCommandeUserComponent implements OnInit{
       }
     })
   }
+
 }

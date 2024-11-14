@@ -19,7 +19,18 @@
             <td>{{ commande.date }}</td>
             <td>{{ commande.status }}</td>
             <td>{{ commande.userName }}</td>
-            <td>{{ commande.menuName }}</td>
+            <!-- <td (click)="openFeedbackDialog(commande.menuName)"> -->
+              <td >
+                <a [routerLink]="['feed']"
+     [queryParams]="{
+       commandeId: commande.id,
+       menuId: commande.menuId
+     }">
+    {{ commande.menuName }}
+  </a>
+              </td>
+              
+              
             <td>{{ commande.menuPrice | currency }}</td>
           </tr>
         </tbody>

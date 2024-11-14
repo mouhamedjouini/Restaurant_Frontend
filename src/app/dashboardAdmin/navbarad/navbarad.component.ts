@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbarad',
@@ -9,5 +9,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navbarad.component.css'
 })
 export class NavbaradComponent {
-
+  constructor(private router: Router){}
+  ngOnInit(): void {
+   
+  }
+logout() {
+    localStorage.removeItem('token');
+    localStorage.clear(); 
+    this.router.navigate(["/login"]);
+}
 }
