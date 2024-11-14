@@ -19,9 +19,12 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@auth0/angular-jwt": "^5.2.0",
+    "@stripe/stripe-js": "^4.9.0",
+    "@types/stripe-v3": "^3.1.33",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
+    "stripe": "^17.3.1",
     "sweetalert2": "^11.14.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
@@ -31,12 +34,14 @@
     "@angular/cli": "^17.0.3",
     "@angular/compiler-cli": "^17.0.0",
     "@types/jasmine": "~5.1.0",
+    "@types/stripe": "^8.0.417",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "stripe-angular": "^0.2.4",
     "typescript": "~5.2.2"
   }
 }
