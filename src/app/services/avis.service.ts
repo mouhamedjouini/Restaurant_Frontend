@@ -12,7 +12,7 @@ export class AvisService {
   constructor(private http: HttpClient) {}
 
   AddAvis(avis: Avis): Observable<Avis> {
-    console.log('Sending request to backend:', avis);
+    console.log('Sending request to backend SERVICE :', avis);
     return this.http.post<Avis>(`${BASE_URL}`, avis);
   }
 

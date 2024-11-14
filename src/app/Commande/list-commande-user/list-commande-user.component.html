@@ -12,6 +12,7 @@
             <th>User</th>
             <th>Menu</th>
             <th>Price</th>
+            <th>Avis</th>
           </tr>
         </thead>
         <tbody>
@@ -19,28 +20,34 @@
             <td>{{ commande.date }}</td>
             <td>{{ commande.status }}</td>
             <td>{{ commande.userName }}</td>
-            <!-- <td (click)="openFeedbackDialog(commande.menuName)"> -->
+         
+    
               <td >
-                <a [routerLink]="['feed']"
-     [queryParams]="{
-       commandeId: commande.id,
-       menuId: commande.menuId
-     }">
+          
     {{ commande.menuName }}
-  </a>
-              </td>
+      </td>
               
               
             <td>{{ commande.menuPrice | currency }}</td>
+            <td>  <a [routerLink]="['feed']"
+            [queryParams]="{
+              commandeId: commande.id,
+              menuId: commande.menuId
+            }">
+          📝 Postuler
+         </a></td>
           </tr>
         </tbody>
       </table>
-      <div class="text-end mt-3">
-        <a [routerLink]="['pay']" >
-          <strong>Total Price: {{ totalPrice | currency }}</strong>
-        </a>
-        
+      <div class="text-end mt-4">
+        <h4>Total : <strong>{{ totalPrice | currency }}</strong></h4>
+        <button mat-raised-button color="primary" class="mt-2"
+          [routerLink]="['pay']"
+          [queryParams]="{ totalPrice: totalPrice }">
+          <i class="fa fa-credit-card"></i> Payer
+        </button>
       </div>
+      
     </div>
   </div>
   

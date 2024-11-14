@@ -23,9 +23,9 @@ export class AvisComponent {
   avis: Avis = {
     comment: '',
     rating: 0,
-    restaurantId: 1,
-    commandeId: undefined,
-    menuId: undefined
+  
+    commandId: 0,
+    menuId: 0
   };
   
   stars: number[] = [1, 2, 3, 4, 5]; // Array for star rating system
@@ -38,8 +38,8 @@ export class AvisComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.avis.commandeId = params['commandeId'] ? Number(params['commandeId']) : undefined;
-      this.avis.menuId = params['menuId'] ? Number(params['menuId']) : undefined;
+      this.avis.commandId = params['commandeId'] ? Number(params['commandeId']) : 0;
+      this.avis.menuId = params['menuId'] ? Number(params['menuId']) : 0;
     });
   }
 
@@ -50,7 +50,7 @@ export class AvisComponent {
 
   // Submit the avis
   submitAvis() {
-    if (!this.avis.commandeId || !this.avis.menuId) {
+    if (!this.avis.commandId || !this.avis.menuId) {
       console.error('Error: commandeId or menuId is missing.');
       return;
     }

@@ -3,8 +3,7 @@ export class Avis {
     date?: Date;
     comment?: String;
     rating?: number;
-    restaurantId?: number;
-    commandeId?: number;
+    commandId?: number;
     menuId?:number;
   }
   
