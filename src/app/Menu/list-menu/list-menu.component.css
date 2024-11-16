@@ -14,3 +14,13 @@
     color: #333;
     cursor: pointer;
 }
+.star-filled {
+    color: gold;  /* Filled stars will be golden */
+    font-size: 1.2em; /* Adjust the size */
+  }
+  
+  .star-empty {
+    color: lightgray;  /* Empty stars will be gray */
+    font-size: 1.2em;  /* Adjust the size */
+  }
+  

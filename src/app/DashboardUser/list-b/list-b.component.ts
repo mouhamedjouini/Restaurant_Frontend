@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { loadZone } from 'zone.js/lib/zone';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-b',
@@ -27,11 +28,10 @@ export class ListBComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    // Fetch current user and their reservations
     this.authService.getCurrentUser().subscribe({
       next: (data) => {
-        const userId = data.id; // Get the current user's ID
-        this.fetchReservationsByUser(userId); // Fetch reservations for the current user
+        const userId = data.id; 
+        this.fetchReservationsByUser(userId); 
       },
       error: (err) => {
         console.error('Error fetching current user:', err);
@@ -39,7 +39,6 @@ export class ListBComponent implements OnInit{
     });
   }
 
-  // Fetch reservations by user ID
   fetchReservationsByUser(userId: number): void {
     this.book.getReservationsByUser(userId).subscribe({
       next: (reservations) => {
@@ -51,22 +50,31 @@ export class ListBComponent implements OnInit{
     });
   }
 
-  // Delete a reservation
   deleteReservation(id: number): void {
-    console.log(id);
-    
-    this.book.deleteReservation(id).subscribe({
-      next: () => {
-        console.log("hhhh");
-        
-       // this.reservations = this.reservations.filter(res => res.id !== id);
-        this.toastr.success('Reservation deleted successfully.', 'Deleted'); 
-      },
-      error: (err) => {
-        console.log("error");
-        
-        console.error('Error deleting reservation:', err);
-        this.toastr.error('Failed to delete reservation.', 'Error');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this reservation? This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.book.deleteReservation(id).subscribe({
+          next: (message: string) => {
+            console.log(message);
+            this.reservations = this.reservations.filter(res => res.id !== id);
+            this.toastr.success('Reservation deleted successfully.', 'Deleted');
+  
+            this.ngOnInit();
+          },
+          error: (err) => {
+            console.error('Error deleting reservation:', err);
+            this.toastr.error('Failed to delete reservation.', 'Error');
+          }
+        });
       }
     });
-  }}
+  }
+  }

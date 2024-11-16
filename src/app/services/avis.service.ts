@@ -31,5 +31,7 @@ export class AvisService {
   GetAllAvis(): Observable<Avis[]> {
     return this.http.get<Avis[]>(`${BASE_URL}`);
   }
-
+   getAverageRatingByMenu(menuId: number): Observable<number> {
+    return this.http.get<number>(`${BASE_URL}/average-rating/${menuId}`);
+  }
 }

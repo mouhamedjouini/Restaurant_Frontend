@@ -33,75 +33,95 @@ export class ListTableComponent  implements OnInit{
     this.fetchReservations();
   }
 
-  fetchReservations() {
+  fetchReservations(): void {
     this.book.getAllReservations().subscribe({
       next: (reservations) => {
-        this.reservations = reservations.map(reservation => ({
+        this.reservations = reservations.map((reservation) => ({
           ...reservation,
-          status: reservation.status || 'PENDING'  
+          status: reservation.status || 'PENDING', // Default status if not set
         }));
       },
       error: (err) => {
         console.error('Error fetching reservations:', err);
         this.toastr.error('Failed to fetch reservations.', 'Error');
-      }
+      },
     });
   }
 
-  onStatusChange(reservation: Reservation) {
+  onStatusChange(reservation: Reservation): void {
     if (reservation.status === 'CANCELLED') {
-      this.toastr.info('Reservation status will be changed to cancelled, and it will be deleted shortly.', 'Cancelled');
-      
-      this.deleteReservation(reservation.id);
-    } else {
-      this.book.updateReservation(reservation, reservation.id).subscribe({
-        next: (updatedReservation) => {
-          const index = this.reservations.findIndex(r => r.id === updatedReservation.id);
-          if (index !== -1) {
-            this.reservations[index] = updatedReservation;  
+      this.authService.getCurrentUser().subscribe({
+        next: (user) => {
+          if (user.role === 'Admin') {
+            this.deleteReservationAndRefresh(reservation.id); // Supprime et recharge
+          } else {
+            this.toastr.error(
+              'You do not have permission to cancel this reservation.',
+              'Permission Denied'
+            );
           }
-          this.showStatusToast(updatedReservation.status);  
         },
         error: (err) => {
-          console.error('Error updating reservation status:', err);
-          this.toastr.error('Failed to update reservation status.', 'Error');
-        }
+          console.error('Error fetching current user:', err);
+          this.toastr.error('Failed to fetch user data.', 'Error');
+        },
       });
+    } else {
+      this.updateReservation(reservation); // Gère les autres statuts
     }
   }
+  
 
-  deleteReservation(id: number): void {
-    this.authService.getCurrentUser().subscribe({
-      next: (user) => {
-        if (user.role === 'Admin') {
-          this.book.deleteReservation(id).subscribe({
-            next: () => {
-              this.reservations = this.reservations.filter(res => res.id !== id);
-              this.toastr.success('Reservation deleted successfully. The table is now available.', 'Deleted');
-            },
-            error: (err) => {
-              console.error('Error deleting reservation:', err);
-              this.toastr.error('Failed to delete reservation.', 'Error');
-            }
-          });
-        } else {
-          this.toastr.error('You do not have permission to delete this reservation.', 'Permission Denied');
+  updateReservation(reservation: Reservation): void {
+    this.book.updateReservation(reservation, reservation.id).subscribe({
+      next: (updatedReservation) => {
+        console.log('Updated Reservation:', updatedReservation);  // Vérifiez la réponse ici
+        const index = this.reservations.findIndex(
+          (r) => r.id === updatedReservation.id
+        );
+        if (index !== -1) {
+          this.reservations[index] = updatedReservation;
         }
+        this.showStatusToast(updatedReservation.status);
       },
       error: (err) => {
-        console.error('Error fetching current user:', err);
-        this.toastr.error('Failed to fetch user data.', 'Error');
-      }
+        console.error('Error updating reservation status:', err);
+        this.toastr.error('Failed to update reservation status.', 'Error');
+      },
     });
   }
+  
 
-  showStatusToast(status?: string) {
+  deleteReservationAndRefresh(id: number): void {
+    this.book.deleteReservation(id).subscribe({
+      next: () => {
+        this.toastr.success(
+          'Reservation deleted successfully. The table is now available.',
+          'Deleted'
+        );
+  
+        // Ajoute un délai avant le rafraîchissement
+        setTimeout(() => {
+          this.fetchReservations();
+        }, 2000); // Rafraîchir après 2 secondes
+      },
+      error: (err) => {
+        console.error('Error deleting reservation:', err);
+        this.toastr.error('Failed to delete reservation.', 'Error');
+      },
+    });
+  }
+  
+  showStatusToast(status?: string): void {
     if (status === 'PENDING') {
       this.toastr.warning('Reservation is pending.', 'Pending');
     } else if (status === 'CONFIRMED') {
       this.toastr.success('Reservation confirmed.', 'Confirmed');
     } else if (status === 'CANCELLED') {
-      this.toastr.error('Reservation cancelled. The table is now available.', 'Cancelled');
+      this.toastr.error(
+        'Reservation cancelled. The table is now available.',
+        'Cancelled'
+      );
     } else {
       this.toastr.info('Status not specified.');
     }
