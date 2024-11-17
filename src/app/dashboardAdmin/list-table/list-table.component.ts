@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-list-table',
@@ -17,6 +18,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './list-table.component.css'
 })
 export class ListTableComponent  implements OnInit{
+  
+  notifications: { message: string; type: 'CONFIRMED' | 'CANCELLED' }[] = [];
   reservations: Reservation[] = [];
   currentPage = 1;
   selectedStatus: string = 'PENDING';
@@ -26,7 +29,8 @@ export class ListTableComponent  implements OnInit{
   constructor(
     private book: BookingService,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +42,7 @@ export class ListTableComponent  implements OnInit{
       next: (reservations) => {
         this.reservations = reservations.map((reservation) => ({
           ...reservation,
-          status: reservation.status || 'PENDING', // Default status if not set
+          status: reservation.status || 'PENDING', 
         }));
       },
       error: (err) => {
@@ -50,32 +54,30 @@ export class ListTableComponent  implements OnInit{
 
   onStatusChange(reservation: Reservation): void {
     if (reservation.status === 'CANCELLED') {
-      this.authService.getCurrentUser().subscribe({
-        next: (user) => {
-          if (user.role === 'Admin') {
-            this.deleteReservationAndRefresh(reservation.id); // Supprime et recharge
-          } else {
-            this.toastr.error(
-              'You do not have permission to cancel this reservation.',
-              'Permission Denied'
-            );
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching current user:', err);
-          this.toastr.error('Failed to fetch user data.', 'Error');
-        },
-      });
+      this.deleteReservationAndRefresh(reservation.id);
     } else {
-      this.updateReservation(reservation); // Gère les autres statuts
+      this.updateReservation(reservation);
     }
   }
   
 
   updateReservation(reservation: Reservation): void {
+    // Ensure the status is defined
+    if (!reservation.status) {
+      reservation.status = 'PENDING'; // Set default status
+    }
+  
+    const currentReservation = this.reservations.find((r) => r.id === reservation.id);
+  
+    // Check if status has changed
+    if (currentReservation && currentReservation.status === reservation.status) {
+      console.log('No status change detected. Skipping notification.');
+      return;
+    }
+  
     this.book.updateReservation(reservation, reservation.id).subscribe({
       next: (updatedReservation) => {
-        console.log('Updated Reservation:', updatedReservation);  // Vérifiez la réponse ici
+        console.log('Updated Reservation:', updatedReservation);
         const index = this.reservations.findIndex(
           (r) => r.id === updatedReservation.id
         );
@@ -83,6 +85,14 @@ export class ListTableComponent  implements OnInit{
           this.reservations[index] = updatedReservation;
         }
         this.showStatusToast(updatedReservation.status);
+  
+        // Notify only if the status has changed
+        if (updatedReservation.status) {
+          this.notificationService.addNotification({
+            message: `Reservation ${updatedReservation.status.toLowerCase()}.`,
+            type: updatedReservation.status,
+          });
+        }
       },
       error: (err) => {
         console.error('Error updating reservation status:', err);
@@ -91,7 +101,7 @@ export class ListTableComponent  implements OnInit{
     });
   }
   
-
+  
   deleteReservationAndRefresh(id: number): void {
     this.book.deleteReservation(id).subscribe({
       next: () => {
@@ -99,11 +109,9 @@ export class ListTableComponent  implements OnInit{
           'Reservation deleted successfully. The table is now available.',
           'Deleted'
         );
-  
-        // Ajoute un délai avant le rafraîchissement
         setTimeout(() => {
           this.fetchReservations();
-        }, 2000); // Rafraîchir après 2 secondes
+        }, 2000); 
       },
       error: (err) => {
         console.error('Error deleting reservation:', err);
