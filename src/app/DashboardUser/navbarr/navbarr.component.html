@@ -24,19 +24,21 @@
                 </div>
                 <a  class="nav-item nav-link">Contact</a>
                 
-                <!-- Notification Icon -->
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fa fa-bell me-2"></i>
-                        <span class="badge bg-danger">3</span> <!-- Example count -->
-                    </a>
-                    <div class="dropdown-menu m-0">
-                        <a  class="dropdown-item">New Order Received</a>
-                        
-                        <a class="dropdown-item">Table Booking Request</a>
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-2"></i>
+                    <span class="badge bg-danger">{{ notifications.length }}</span>
+                  </a>
+                  <div class="dropdown-menu m-0">
+                    <div *ngFor="let notification of notifications; let i = index" class="dropdown-item">
+                      <span [class.text-success]="notification.type === 'CONFIRMED'"
+                            [class.text-danger]="notification.type === 'CANCELLED'">
+                        {{ notification.message }}
+                      </span>
                     </div>
+                  </div>
                 </div>
-
+                
                 <!-- User Profile Icon -->
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">

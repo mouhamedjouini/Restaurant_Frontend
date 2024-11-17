@@ -47,7 +47,24 @@
                               <span>{{ item.name }}</span>
                               <span class="text-primary">{{ item.price  }}</span>
                             </h5>
-                            <small class="fst-italic">{{ item.description }}</small>
+                            <small class="fst-italic">{{ item.description }}</small> 
+                            <!-- Template part to display rating -->
+                            <div *ngIf="item.id && ratings[item.id] !== undefined">
+                                <small class="fst-italic">
+                                  <!-- Display stars based on rating -->
+                                  <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                                    <!-- Filled stars -->
+                                    <span *ngIf="i < (ratings[item.id] || 0)" class="star-filled">★</span>
+                                    <!-- Empty stars -->
+                                    <span *ngIf="i >= (ratings[item.id] || 0)" class="star-empty">☆</span>
+                                  </ng-container>
+                                  <!-- Rating: {{ ratings[item.id] }} / 5 -->
+                                </small>
+                              </div>
+                              
+                              
+                              
+                  
                             <div class="icon-container">
                                 <i class="bi bi-pencil-square icon-edit" [routerLink]="['/Admin/update', item.id]"></i>
                                 <i class="bi bi-trash icon-delete" (click)="deleteMenu(item.id)"></i>

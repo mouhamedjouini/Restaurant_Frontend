@@ -4,6 +4,7 @@ import { Menu } from '../../models/Menu';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AvisService } from '../../services/avis.service';
 
 @Component({
   selector: 'app-list-menu',
@@ -15,8 +16,11 @@ import { RouterLink } from '@angular/router';
 export class ListMenuComponent implements OnInit{
 
   Menu: Menu[] = [];
+  ratings: { [menuId: number]: number | undefined } = {};
   public url = 'http://localhost:8082/api/images/'
-  constructor(private menuService:MenuService){}
+  constructor(private menuService:MenuService,
+    private avisService: AvisService
+  ){}
   ngOnInit(): void {
    this.allMenu()
   }
@@ -26,6 +30,11 @@ export class ListMenuComponent implements OnInit{
       next: (data) => {
         this.Menu=data;
         console.log(this.Menu)
+        this.Menu.forEach(item => {
+          if (item.id) {  
+            this.getAverageRating(item.id);  
+          }
+        });
       }, error: (err) => {
         console.log(err)
       }
@@ -38,6 +47,16 @@ export class ListMenuComponent implements OnInit{
       },
       error: (error) => {
         console.error('Error deleting menu:', error);
+      }
+    });
+  }
+  getAverageRating(menuId: number) {
+    this.avisService.getAverageRatingByMenu(menuId).subscribe({
+      next: (rating) => {
+        this.ratings[menuId] = rating; // Store the rating for this menu item
+      },
+      error: (err) => {
+        console.log('Error fetching rating:', err);
       }
     });
   }
