@@ -43,4 +43,8 @@ getReservationsByStatus(status: string): Observable<Reservation[]> {
   const headers = this.getAuthHeaders();
   return this.http.get<Reservation[]>(`http://localhost:8082/api/reservations/status/${status}`);
 }
+updateReservationStatus(id: number, status: string): Observable<Reservation> {
+  //const headers = this.getAuthHeaders();
+  return this.http.put<Reservation>(`http://localhost:8082/api/reservations/${id}/status?status=${status}`, {});
+}
 }

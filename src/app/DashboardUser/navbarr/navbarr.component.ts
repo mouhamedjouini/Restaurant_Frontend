@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
+import { Reservation } from '../../models/Reservation';
 
 @Component({
   selector: 'app-navbarr',
@@ -14,28 +15,22 @@ import { NotificationService } from '../../services/notification.service';
 export class NavbarrComponent {
   notifications: { message: string; type: string }[] = [];
 
-  constructor(private router: Router,private notificationService: NotificationService){}
+  constructor(private notificationService: NotificationService) {}
+
   ngOnInit(): void {
     this.notificationService.notifications$.subscribe((notifications) => {
       this.notifications = notifications;
     });
   }
 
-
-  fetchNotifications() {
-    this.notifications = [
-      { message: 'Reservation #123 is confirmed.', type: 'CONFIRMED' },
-      { message: 'Reservation #124 was canceled. No available tables.', type: 'CANCELLED' },
-    ];
-  }
-
   clearNotifications() {
-    this.notifications = [];
+    this.notificationService.clearNotifications();
   }
+
 
 logout() {
     localStorage.removeItem('token');
     localStorage.clear(); 
-    this.router.navigate(["/login"]);
+   // this.router.navigate(["/login"]);
 }
 }
