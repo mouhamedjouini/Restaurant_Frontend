@@ -70,13 +70,11 @@ export class ListTableComponent  implements OnInit{
           ? `Reservation #${id} confirmed.`
           : `No place available. Reservation #${id} was cancelled.`;
         
-        // Notify using NotificationService
         this.notificationService.addNotification({
           message: statusMessage,
-          type: status,  // Set type as status (CONFIRMED or CANCELLED)
+          type: status, 
         });
   
-        // Update reservation in list and show the status toast
         this.updateReservationInList(updatedReservation);
         this.showStatusToast(status);
       },

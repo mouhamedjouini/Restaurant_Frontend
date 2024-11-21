@@ -6,15 +6,15 @@ export type NotificationType = 'CONFIRMED' | 'CANCELLED' | 'PENDING' | 'UNKNOWN'
   providedIn: 'root'
 })
 export class NotificationService {
-  private notificationsSource = new BehaviorSubject<{ message: string; type: string }[]>([]);
-  notifications$ = this.notificationsSource.asObservable();
+  private notificationsSubject = new BehaviorSubject<{ message: string; type: string }[]>([]);
+  notifications$ = this.notificationsSubject.asObservable();
 
   addNotification(notification: { message: string; type: string }): void {
-    const currentNotifications = this.notificationsSource.getValue();
-    this.notificationsSource.next([notification, ...currentNotifications]);
+    const currentNotifications = this.notificationsSubject.value;
+    this.notificationsSubject.next([...currentNotifications, notification]);
   }
 
   clearNotifications(): void {
-    this.notificationsSource.next([]);
+    this.notificationsSubject.next([]);
   }
 }

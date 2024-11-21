@@ -29,4 +29,9 @@ export class CommandeService {
     Delete(id: number) {
       return this.httpClient.delete(`http://localhost:8082/api/delete/menu/${id}`);
     }
+
+    getTop5UsersWithMostOrders(): Observable<any[]> {
+      return this.httpClient.get<any[]>('http://localhost:8082/top-5-users');
+    }
+
 }
