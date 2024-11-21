@@ -15,7 +15,7 @@ import { Reservation } from '../../models/Reservation';
 export class NavbarrComponent {
   notifications: { message: string; type: string }[] = [];
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService,private router:Router) {}
 
   ngOnInit(): void {
     this.notificationService.notifications$.subscribe((notifications) => {
@@ -31,6 +31,6 @@ export class NavbarrComponent {
 logout() {
     localStorage.removeItem('token');
     localStorage.clear(); 
-   // this.router.navigate(["/login"]);
+    this.router.navigate(["/login"]);
 }
 }
