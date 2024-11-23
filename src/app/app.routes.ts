@@ -18,7 +18,11 @@ import { ListCommandeUserComponent } from './Commande/list-commande-user/list-co
 import { ListCommandeComponent } from './Commande/list-commande/list-commande.component';
 import { PaymentComponent } from './DashboardUser/payment/payment.component';
 import { AvisComponent } from './DashboardUser/avis/avis.component';
+
 import { DashlivComponent } from './dashboardLivreur/dashliv/dashliv.component';
+
+import { StatComponent } from './dashboardAdmin/stat/stat.component';
+
 
 
 export const routes: Routes = [
@@ -31,7 +35,8 @@ export const routes: Routes = [
         {path: 'add',component:AddMenuComponent},
         {path: 'update/:id',component:UpdateMenuComponent},
         {path:"list", component:ListTableComponent},
-        {path:'listCommande' , component:ListCommandeComponent}
+        {path:'listCommande' , component:ListCommandeComponent},
+        {path :'stat',component:StatComponent}
     ]},
     { path: 'user', component: DashUserComponent , children:[
         {path: "addT" , component :AddTableComponent},

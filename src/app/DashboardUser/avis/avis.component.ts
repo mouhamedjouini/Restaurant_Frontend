@@ -58,7 +58,7 @@ export class AvisComponent {
     this.avisService.AddAvis(this.avis).subscribe({
       next: response => {
         console.log('Avis submitted:', response);
-        this.router.navigate(['/list-commande-user']);
+        this.router.navigate(['/user/listCommande']);
       },
       error: error => {
         console.error('Error submitting avis:', error);

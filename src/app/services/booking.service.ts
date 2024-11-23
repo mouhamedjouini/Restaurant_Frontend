@@ -27,12 +27,10 @@ export class BookingService {
     const headers = this.getAuthHeaders();
     return this.http.get<Reservation[]>(`http://localhost:8082/api/reservations/user/${userId}`);
 }
-deleteReservation(id: number): Observable<void> {
-  const headers = this.getAuthHeaders();
-  console.log("services",id);
-  
-  return this.http.delete<void>(`http://localhost:8082/api/reservations/deletRc/${id}`);
+deleteReservation(id: number): Observable<string> {
+  return this.http.delete(`http://localhost:8082/api/reservations/${id}`, { responseType: 'text' });
 }
+
 updateReservation(reservation: Reservation, id: number): Observable<Reservation> {
   const headers = this.getAuthHeaders();
   return this.http.put<Reservation>(`http://localhost:8082/api/reservations/updateR/${id}`, reservation);
@@ -44,5 +42,9 @@ getReservationById(id: number): Observable<Reservation> {
 getReservationsByStatus(status: string): Observable<Reservation[]> {
   const headers = this.getAuthHeaders();
   return this.http.get<Reservation[]>(`http://localhost:8082/api/reservations/status/${status}`);
+}
+updateReservationStatus(id: number, status: string): Observable<Reservation> {
+  //const headers = this.getAuthHeaders();
+  return this.http.put<Reservation>(`http://localhost:8082/api/reservations/${id}/status?status=${status}`, {});
 }
 }
