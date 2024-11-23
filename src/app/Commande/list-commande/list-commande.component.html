@@ -20,15 +20,31 @@
               <th>Status</th>
               <th>Menu</th>
               <th>Prix</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let commande of commandes">
               <td>{{ commande.date | date}}</td>
-              <td>{{ commande.status }}</td>
+              <td>
+                <span [ngClass]="getStatusClass(commande.status)" class="status-badge">
+                  {{ commande.status }}
+                </span>
+              </td>
               <td>{{ commande.menuName }}</td>
               <td>{{ commande.menuPrice | currency:'TND' }}</td>
+              <select
+  class="form-select"
+ 
+  [(ngModel)]="commande.status"
+  (change)="confirmStatusChange(commande.id, commande.status )" >
+  <option value="PENDING">En attente</option>
+  <option value="PROCESSING">En cours</option>
+  <option value="COMPLETED">Complétée</option>
+  <option value="CANCELLED">Annulée</option>
+</select>
             </tr>
+            
           </tbody>
           <!-- Afficher le total des commandes de l'utilisateur -->
           <tfoot>

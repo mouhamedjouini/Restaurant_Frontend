@@ -4,11 +4,13 @@ import { CommandeService } from '../../services/commande.service';
 import { MenuService } from '../../services/menu.service';
 import { Commande } from '../../models/Commande';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-commande',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './list-commande.component.html',
   styleUrl: './list-commande.component.css'
 })
@@ -28,8 +30,63 @@ export class ListCommandeComponent {
         this.totalPrice += commande.menuPrice || 0; // Ajouter le prix de chaque menu
       }
     }
-   
- 
+    getStatusClass(status: Commande['status']): string {
+      switch (status) {
+        case 'PENDING':
+          return 'status-pending';
+        case 'PROCESSING':
+          return 'status-processing';
+        case 'COMPLETED':
+          return 'status-completed';
+        case 'CANCELLED':
+          return 'status-cancelled';
+        default:
+          return 'status-unknown';
+      }
+      
+      
+    }
+    confirmStatusChange(id: Commande['id'], newStatus: Commande['status']) {
+      Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        text: `Voulez-vous vraiment changer le statut à ${newStatus} ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Oui, changer',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.updateStatus(id, newStatus);
+          Swal.fire(
+            'Changé !',
+            `Le statut a été changé à ${newStatus}.`,
+            'success'
+          );
+        }
+      });
+    }    
+    updateStatus(commandeId: Commande['id'], newStatus: Commande['status']) {
+      this.commande.updateStatus(commandeId, newStatus)
+        .subscribe(
+          (response: any) => {
+            console.log('Statut de la commande mis à jour:', response);
+    
+            const updatedCommande = this.commandes.find(c => c.id === commandeId);
+            if (updatedCommande) {
+              updatedCommande.status = newStatus;
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la mise à jour du statut:', error);
+            Swal.fire(
+              'Erreur',
+              'Une erreur s\'est produite lors de la mise à jour du statut.',
+              'error'
+            );
+          }
+        );}
   getCommandes(){
     this.commande.GetAll().subscribe({
       next:(data)=>{

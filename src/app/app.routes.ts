@@ -18,6 +18,7 @@ import { ListCommandeUserComponent } from './Commande/list-commande-user/list-co
 import { ListCommandeComponent } from './Commande/list-commande/list-commande.component';
 import { PaymentComponent } from './DashboardUser/payment/payment.component';
 import { AvisComponent } from './DashboardUser/avis/avis.component';
+import { DashlivComponent } from './dashboardLivreur/dashliv/dashliv.component';
 
 
 export const routes: Routes = [
@@ -44,5 +45,7 @@ export const routes: Routes = [
         {path:'listCommande/feed' , component:AvisComponent}
 
        
-    ] }
+    ] },
+    { path: 'Livreur', component: DashlivComponent , children:[]}
+
 ];
