@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Commande } from '../models/Commande';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,6 +15,11 @@ export class CommandeService {
       return this.httpClient.get<Commande[]>(`http://localhost:8082/user/${id}`);
     }
     
+    updateStatus(id: Commande['id'], status: Commande['status']): Observable<Commande> {
+      const validStatus = status ?? 'PENDING';
+      const params = new HttpParams().set('status', validStatus);
+      return this.httpClient.patch<Commande>(`http://localhost:8082/updateStatus/${id}`, {}, { params });
+    }
     
     update(id: any, formData: FormData): Observable<Commande> {
       formData.forEach((value, key) => {

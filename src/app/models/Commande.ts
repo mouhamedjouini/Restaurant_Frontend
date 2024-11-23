@@ -4,7 +4,9 @@ export enum Status {
     PENDING = 'PENDING',
     COMPLETED = 'COMPLETED',
     CANCELLED = 'CANCELLED',
-    // Add other status values as per your application requirements
+    PROCESSING = 'PROCESSING',
+    
+
   }
 export class Commande {
     id?: number;
