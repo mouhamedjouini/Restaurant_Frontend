@@ -51,8 +51,10 @@ this.auth.saveToken(this.jwToken);
 this.getCurrentUser()
 if(this.roles.includes('Admin')){
   this.router.navigate(['/Admin']);
+}else if(this.roles.includes('LIVREUR')){
+this.router.navigate(['/Livreur']);
 }else{
-this.router.navigate(['/user']);
+  this.router.navigate(['/user']);
 }
 },
 error: (err: any) => {

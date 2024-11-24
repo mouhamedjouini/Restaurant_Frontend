@@ -31,6 +31,9 @@ export class AuthService {
   getall(){
     return this.http.get<any[]>(this.url+"all")
   }
+  getallLivreur(){
+    return this.http.get<any[]>(this.url+"livreurs")
+  }
   saveToken(jwt:string){
     localStorage.setItem('jwt',jwt);
     this.token = jwt;

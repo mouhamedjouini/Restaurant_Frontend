@@ -17,12 +17,43 @@ import Swal from 'sweetalert2';
 export class ListCommandeComponent {
   constructor(private auth:AuthService,private commande:CommandeService,private menu : MenuService){}
   commandes: Commande[] = [];
+  livreurs:any;
+  li="gggg"
   totalPrice: number = 0;
   ngOnInit(): void {
     this.getCommandes()
-    
+    this.getAllLivreurs()
    
      }
+     getAllLivreurs() {
+      this.auth.getallLivreur().subscribe({
+        next: (data) => {
+          console.log('Liste des livreurs récupérée avec succès:', data);
+          this.livreurs = data; // Stocker les livreurs dans une variable pour utilisation dans le template
+        },
+        error: (err) => {
+          console.error('Erreur lors de la récupération des livreurs:', err);
+        }
+      });
+    }
+    onAssignLivreur(commandeId: Commande['id'], livreurId: Commande['livreurId']) {
+      if (!livreurId) {
+        console.warn('Livreur non sélectionné.');
+        return;
+      }
+    
+      this.commande.assignLivreurToCommande(commandeId, livreurId).subscribe({
+        next: (response) => {
+          console.log('Livreur assigné avec succès', response);
+          alert('Livreur assigné avec succès !');
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'attribution du livreur :', err);
+          alert('Erreur lors de l\'attribution du livreur.');
+        }
+      });
+    }
+    
 
      calculateTotalPrice() {
       this.totalPrice = 0; // Réinitialiser le total
@@ -91,6 +122,7 @@ export class ListCommandeComponent {
     this.commande.GetAll().subscribe({
       next:(data)=>{
         this.commandes=data
+        
         this.calculateTotalPrice()
         console.log(this.commandes);
   

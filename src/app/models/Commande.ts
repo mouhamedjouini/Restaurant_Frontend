@@ -16,5 +16,7 @@ export class Commande {
     menuName?: string;
     menuPrice?: number;
    userId?: number;
+   livreurId?:number
     menuId?: number;
+    livreurName?:string
   }

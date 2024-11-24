@@ -1,16 +1,10 @@
 <div class="container-xxl py-5">
     <h1 class="text-center mb-4">Commandes par Client</h1>
-  @if (commandes.length === 0) {
-    <!-- Si aucune commande n'est disponible -->
-    <div class="alert alert-info text-center">
-      No commandes available.
-    </div>
-}
-@if (commandes.length > 0) {
+
     <div >
-    @for ( userCommandes of commandes; track $index) {
+  
       <div >
-        <h3>Client : {{ userCommandes.userName }}</h3>
+     
   
         <!-- Tableau des commandes de l'utilisateur -->
         <table class="table table-hover table-bordered table-striped rounded">
@@ -18,9 +12,10 @@
             <tr>
               <th>Date</th>
               <th>Status</th>
-              <th>Menu</th>
+              <th>Livreur</th>
               <th>Prix</th>
               <th>Status</th>
+              <th>Livreur</th>
             </tr>
           </thead>
           <tbody>
@@ -31,18 +26,32 @@
                   {{ commande.status }}
                 </span>
               </td>
-              <td>{{ commande.menuName }}</td>
+              <td>{{ commande.livreurName}}</td>
               <td>{{ commande.menuPrice | currency:'TND' }}</td>
-              <select
-  class="form-select"
- 
-  [(ngModel)]="commande.status"
-  (change)="confirmStatusChange(commande.id, commande.status )" >
+              <select class="form-select" [(ngModel)]="commande.status" (change)="confirmStatusChange(commande.id, commande.status )" >
   <option value="PENDING">En attente</option>
   <option value="PROCESSING">En cours</option>
   <option value="COMPLETED">Complétée</option>
   <option value="CANCELLED">Annulée</option>
 </select>
+<td>
+  <select
+    class="form-select"
+    [(ngModel)]="commande.livreurId"
+    (ngModelChange)="onAssignLivreur(commande.id, commande.livreurId)">
+    <!-- Option par défaut : affiche le nom du livreur -->
+    <option [value]="commande.livreurId" selected>
+      {{ commande.livreurName || 'Aucun' }}
+    </option>
+    <!-- Liste des livreurs disponibles -->
+    <option *ngFor="let livreur of livreurs" [value]="livreur.id">
+      {{ livreur.username }}
+    </option>
+  </select>
+</td>
+
+
+
             </tr>
             
           </tbody>
@@ -55,7 +64,6 @@
           </tfoot>
         </table>
       </div>
-    }
+    
     </div>
-}
-  </div>
+
