@@ -20,6 +20,14 @@ export class CommandeService {
       const params = new HttpParams().set('status', validStatus);
       return this.httpClient.patch<Commande>(`http://localhost:8082/updateStatus/${id}`, {}, { params });
     }
+    getCommandesByLivreurId(livreurId: number): Observable<Commande[]> {
+      return this.httpClient.get<Commande[]>(`http://localhost:8082/livreur/${livreurId}`);
+    }
+     
+    assignLivreurToCommande(commandeId: Commande['id'], livreurId: number): Observable<any> {
+      const params = new HttpParams().set('livreurId', livreurId.toString());
+      return this.httpClient.patch(`http://localhost:8082/assignLivreur/${commandeId}`, null, { params });
+    }
     
     update(id: any, formData: FormData): Observable<Commande> {
       formData.forEach((value, key) => {

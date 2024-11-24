@@ -5,6 +5,8 @@ export class User{
     username?: string;
     password?: string;
     email?: string;
+    adresse?: string;
     enabled?: boolean; 
+
     roles?: Role[];  
 }

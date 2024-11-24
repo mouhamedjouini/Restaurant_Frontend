@@ -22,6 +22,7 @@ import { AvisComponent } from './DashboardUser/avis/avis.component';
 import { DashlivComponent } from './dashboardLivreur/dashliv/dashliv.component';
 
 import { StatComponent } from './dashboardAdmin/stat/stat.component';
+import { ListCommandeLivComponent } from './dashboardLivreur/list-commande-liv/list-commande-liv.component';
 
 
 
@@ -51,6 +52,8 @@ export const routes: Routes = [
 
        
     ] },
-    { path: 'Livreur', component: DashlivComponent , children:[]}
+    { path: 'Livreur', component: DashlivComponent , children:[
+        {path:'listCommandeliv' , component:ListCommandeLivComponent},
+    ]}
 
 ];
